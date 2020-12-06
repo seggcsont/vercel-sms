@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
       { upsert: true },
       (err) => {
         if (err) return res.status(500).json({ error: err });
-        return res.sendStatus(201);
+        return res.status(201).send();
       });
   });
 }
