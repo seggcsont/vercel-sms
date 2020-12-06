@@ -1,6 +1,7 @@
 const withCollection = require('../util/db');
 
 module.exports = async (req, res) => {
+  console.log(`Request: ${req.body}`)
   withCollection(collection => {
     collection.findOneAndUpdate({ place: req.body.place },
       { $addToSet: { aliases: req.body.alias } },
