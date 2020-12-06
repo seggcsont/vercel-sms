@@ -1,0 +1,7 @@
+{
+  "name": "sms-parser-api",
+  "version": 2,
+  "env": {
+    "MONGODB_URI": "@sms-db-uri"
+  }
+}
