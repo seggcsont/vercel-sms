@@ -1,7 +1,7 @@
 // Import Dependencies
 const withCollection = require("../util/db");
 const EXPENSE_PATTERNS = [
-  /.*POS tranzakci. (?<amount>[\d ,]+).*Hely: (?<place>.+)/,
+  /.*POS tranzakci. (?<amount>[\d ,]+).*Id.pont: 202\d\.\d\d.(?<date>\d?\d).*Hely: (?<place>.+)/,
   /.*megb.z.s teljes.lt (?<amount>[\d ,]+) Ft .*Kedv.: (?<place>.+)/,
   /k.z.zemi megb.z.sa teljes.lt: .*? (?<amount>[\d ,]+) Ft Kedv.: (?<place>.+) 202.\.[01][0-9].*/,
   /(?<place>esed.kes (?:kamat|hitel.*)) t.rlesztve (?<amount>[\d ,]+) Ft/,
@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
     if (match) {
       console.log(match);
       const amount = parseInt(match.groups.amount.trim().replace(/ /g, ""));
+      const date = match.groups.date || new Date().getDate();
       const rawPlace = match.groups.place.trim();
       const place = isUppercase(rawPlace)
         ? upperToCapitalCase(rawPlace)
@@ -43,6 +44,7 @@ module.exports = async (req, res) => {
               };
             }
             item.amount = amount;
+            item.date = date;
             console.log(item);
 
             return res.json(item);

@@ -21,7 +21,7 @@ describe("api/sms", () => {
     const response = await sa
       .post(apiUrl)
       .set("Content-type", "text/plain")
-      .send("POS tranzakcio 12345Ft Hely: dummy place");
+      .send("POS tranzakcio 12345Ft Idopont: 2021.11.11 11:11:11 Hely: dummy place");
     expect(response.body.place).toBe("dummy place");
     expect(response.body.amount).toBe(12345);
   });
@@ -50,7 +50,7 @@ describe("api/sms", () => {
     const response = await sa
       .post(apiUrl)
       .set("Content-type", "text/plain")
-      .send("POS tranzakcio 12345Ft Hely: DUMMY PLACE");
+      .send("POS tranzakcio 12345Ft Idopont: 2021.11.11 11:11:11 Hely: DUMMY PLACE");
     expect(response.body.place).toBe("Dummy Place");
   });
 
@@ -58,7 +58,15 @@ describe("api/sms", () => {
     const response = await sa
       .post(apiUrl)
       .set("Content-type", "text/plain")
-      .send("POS tranzakcio 12345Ft Hely: DUmmY PLACE");
+      .send("POS tranzakcio 12345Ft Idopont: 2021.11.11 11:11:11 Hely: DUmmY PLACE");
     expect(response.body.place).toBe("DUmmY PLACE");
+  });
+
+  it("should parse date if available in the input", async () => {
+    const response = await sa
+      .post(apiUrl)
+      .set("Content-type", "text/plain")
+      .send("POS tranzakcio 12345Ft Idopont: 2021.05.21 11:11:11 Hely: DUmmY PLACE");
+    expect(response.body.date).toBe("21");
   });
 });
