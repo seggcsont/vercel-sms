@@ -70,4 +70,11 @@ describe("api/sms", () => {
     );
     expect(response.body.date).toBe("20");
   });
+
+  it("should return current date if not available in the input", async () => {
+    const response = await sendRequest(
+     `Mastercard Dombornyomott Kàrtya POS tranzakciò  2 118 Ft Idöpont: 2021.05. 10:54:02 E: 4 697 603 Ft Hely: ROSSMANN 212. BUDAPEST HU`
+    );
+    expect(response.body.date).toBe(new Date().getDate().toString());
+  });
 });

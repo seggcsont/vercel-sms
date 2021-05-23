@@ -5,7 +5,7 @@ const AMOUNT_PATTERN =
 const DATE_PATTERN =
   /.*(?:Id.pont:|Ft) 202\d\.\d\d\.(?<date>\d+) (?:\d+:\d+:\d+ )?E:.*/;
 const EXPENSE_PATTERNS = [
-  /.*POS tranzakci. (?<amount>[\d ,]+).*Id.pont: 202\d\.\d\d.(?<date>\d?\d).*Hely: (?<place>.+)/,
+  /.*POS tranzakci. (?<amount>[\d ,]+).*Hely: (?<place>.+)/,
   /.*megb.z.s teljes.lt (?<amount>[\d ,]+) Ft .*Kedv.: (?<place>.+)/,
   /k.z.zemi megb.z.sa teljes.lt: .*? (?<amount>[\d ,]+) Ft Kedv.: (?<place>.+) 202.\.[01][0-9].*/,
   /(?<place>esed.kes (?:kamat|hitel.*)) t.rlesztve (?<amount>[\d ,]+) Ft/,
