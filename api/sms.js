@@ -1,6 +1,9 @@
 // Import Dependencies
 const withCollection = require("../util/db");
-const AMOUNT_PATTERN = /(?:POS tranzakci.|megb.z.s teljes.lt| utal.s .rkezett) ([\d ,]+) Ft/
+const AMOUNT_PATTERN =
+  /.*(?:POS tranzakci.|megb.z.sa? teljes.lt:?| utal.s .rkezett) (?<amount>[\d ,]+) ?Ft.*/;
+const DATE_PATTERN =
+  /.*(?:Id.pont:|Ft) 202\d\.\d\d\.(?<date>\d+) (?:\d+:\d+:\d+ )?E:.*/;
 const EXPENSE_PATTERNS = [
   /.*POS tranzakci. (?<amount>[\d ,]+).*Id.pont: 202\d\.\d\d.(?<date>\d?\d).*Hely: (?<place>.+)/,
   /.*megb.z.s teljes.lt (?<amount>[\d ,]+) Ft .*Kedv.: (?<place>.+)/,
@@ -25,9 +28,13 @@ module.exports = async (req, res) => {
       .shift();
 
     if (match) {
-      console.log(match);
-      const amount = req.body.match(AMOUNT_PATTERN).group(1).trim().replace(/[ ,]/g, "");
-      const date = match.groups.date || new Date().getDate();
+      console.log(req.body.match(DATE_PATTERN));
+      const amount = parseInt(
+        req.body.match(AMOUNT_PATTERN).groups.amount.trim().replace(/[ ,]/g, "")
+      );
+      const date = req.body.match(DATE_PATTERN)
+        ? req.body.match(DATE_PATTERN).groups.date.trim()
+        : new Date().getDate().toString();
       const rawPlace = match.groups.place.trim();
       const place = isUppercase(rawPlace)
         ? upperToCapitalCase(rawPlace)

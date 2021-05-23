@@ -44,7 +44,7 @@ describe("api/sms", () => {
 
   it("should return amount and place for transfer", async () => {
     const response = await sendRequest(
-      "kozuzemi megbizasa teljesult:  11 123 Ft Kedv.: dummy isp 2021.12.23"
+      "kozuzemi megbizasa teljesult: 11 123 Ft Kedv.: dummy isp 2021.12.23"
     );
     expect(response.body.place).toBe("dummy isp");
     expect(response.body.amount).toBe(11123);
@@ -66,8 +66,8 @@ describe("api/sms", () => {
 
   it("should parse date if available in the input", async () => {
     const response = await sendRequest(
-      "POS tranzakcio 12345Ft Idopont: 2021.05.21 11:11:11 Hely: DUmmY PLACE"
+     `Mastercard Dombornyomott Kàrtya POS tranzakciò  2 118 Ft Idöpont: 2021.05.20 10:54:02 E: 4 697 603 Ft Hely: ROSSMANN 212. BUDAPEST HU`
     );
-    expect(response.body.date).toBe("21");
+    expect(response.body.date).toBe("20");
   });
 });
