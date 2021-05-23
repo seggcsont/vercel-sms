@@ -46,7 +46,7 @@ describe("api/sms", () => {
     const response = await sendRequest(
       "kozuzemi megbizasa teljesult: 11 123 Ft Kedv.: dummy isp 2021.12.23"
     );
-    expect(response.body.place).toBe("dummy isp");
+    expect(response.body.place).toBe("dummy isp 2021.12.23");
     expect(response.body.amount).toBe(11123);
   });
 
