@@ -13,7 +13,7 @@ export function parseAmount(str) {
 
 export function parseDate(str) {
   const match = str.match(DATE_PATTERN);
-  return match ? match.groups.date : new Date().getDate().toString();
+  return match ? parseInt(match.groups.date) : new Date().getDate();
 }
 
 export function parsePlace(str) {

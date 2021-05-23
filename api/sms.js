@@ -2,18 +2,21 @@ import { default as withCollection } from "../util/db";
 import { parseAmount, parseDate, parsePlace } from "../util/parser";
 
 module.exports = async (req, res) => {
-  if (!req.body) {
+  const { body } = req;
+  if (!body) {
+    console.error("[ERROR] Empty request");
     res.status(400).send(`Bad request: request body is empty!`);
   } else {
-    console.log(`Request: ${req.body}`);
+    console.log(`Request: ${body}`);
 
-    const amount = parseAmount(req.body);
-    const date = parseDate(req.body);
-    const place = parsePlace(req.body);
+    const amount = parseAmount(body);
+    const date = parseDate(body);
+    const place = parsePlace(body);
 
-    if (!amount)
+    if (!amount){
+      console.error(`[ERROR] Cannot parse amount from ${body}`);
       return res.status(400).send("Bad request: cannot parse amount");
-
+    }
     withCollection((collection) => {
       collection.findOne(
         { place: place },
