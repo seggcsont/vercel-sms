@@ -4,6 +4,23 @@ const DATE_PATTERN =
   /.*(?:Id.pont:|Ft) 202\d\.\d\d\.(?<date>\d+) (?:\d+:\d+:\d+ )?E:.*/;
 const PLACE_PATTERN = /(?:Hely:|Kedv.:|K.ld.:) (?<place>.+)/;
 
+const HUNGARIAN_CHAR_MAPPING = {
+  "a'": "á",
+  "A'": "Á",
+  "e'": "é",
+  "E'": "É",
+  "i'": "í",
+  "I'": "Í",
+  "o'": "ó",
+  "O'": "Ó",
+  "o:": "ö",
+  "O:": "Ö",
+  "u'": "ú",
+  "U'": "Ú",
+  "u:": "ü",
+  "U:": "Ü",
+};
+
 export function parseAmount(str) {
   const match = str.match(AMOUNT_PATTERN);
   return match
@@ -18,10 +35,18 @@ export function parseDate(str) {
 
 export function parsePlace(str) {
   const match = str.match(PLACE_PATTERN);
-  const rawPlace = match ? match.groups.place.trim() : "";
+  let rawPlace = match ? match.groups.place.trim() : "";
+  rawPlace = resolveSpecialCharacters(rawPlace);
   return isUppercase(rawPlace) ? upperToCapitalCase(rawPlace) : rawPlace;
 }
 
+function resolveSpecialCharacters(str) {
+  let ret = str;
+  for (let c in HUNGARIAN_CHAR_MAPPING) {
+    ret = ret.replace(new RegExp(c, "g"), HUNGARIAN_CHAR_MAPPING[c]);
+  }
+  return ret;
+}
 function isUppercase(str) {
   return str && str === str.toUpperCase();
 }

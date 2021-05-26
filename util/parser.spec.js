@@ -49,6 +49,13 @@ describe("util/parser.js", () => {
       expect(place).toBe("Lidl Aruhaz 0177.sz. Budapest Hu");
     });
 
+    it("should resolve places with hungarian character", () => {
+      const place = parsePlace(
+        `Visa Prémium Kàrtya POS tranzakciò  17 916 Ft Idöpont: 2021.05.20 07:30:48 E: 4 706 146 Ft Hely: LIDL A'RUHA'Z 0177.SZ. BUDAPEST HU`
+      );
+      expect(place).toBe("Lidl Áruház 0177.sz. Budapest Hu");
+    });
+
     it("should return place for POS transaction - Mastercard", () => {
       const place = parsePlace(
         `Mastercard Dombornyomott Kàrtya POS tranzakciò  2 118 Ft Idöpont: 2021.05.20 10:54:02 E: 4 697 603 Ft Hely: ROSSMANN 212. BUDAPEST HU`
