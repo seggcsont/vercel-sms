@@ -34,6 +34,20 @@ describe("util/parser.js", () => {
       );
       expect(amount).toBe(16380);
     });
+
+    it("should return amount for monthly debit 'kamat'", () => {
+      const place = parseAmount(
+        `HUF fizetési szàmla (242476) esedékes kamat törlesztve 6 616 Ft 2021.06.10 E: 921 345 Ft Közl: 01D62242476`
+      );
+      expect(place).toBe(6616);
+    });
+
+    it("should return amount for monthly debit 'hitel'", () => {
+      const place = parseAmount(
+        `HUF fizetési szàmla (242476) esedékes hitel/ tartozàs törlesztve 44 037 Ft 2021.06.10 E: 877 308 Ft Közl: 01D62242476`
+      );
+      expect(place).toBe(44037);
+    });
   });
 
   describe("parsePlace", () => {
