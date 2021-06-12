@@ -31,7 +31,7 @@ describe("api/sms", () => {
      `Mastercard Dombornyomott Kàrtya POS tranzakciò  2 118 Ft Idöpont: 2021.05.20 10:54:02 E: 4 697 603 Ft Hely: ROSSMANN 212. BUDAPEST HU`
     );
     expect(response.body.amount).toBe(2118);
-    expect(response.body.place).toBe("Rossmann 212. Budapest Hu");
+    expect(response.body.place).toBe("Rossmann");
     expect(response.body.date).toBe(20);
   });
 

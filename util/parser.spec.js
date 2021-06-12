@@ -46,56 +46,63 @@ describe("util/parser.js", () => {
       const place = parsePlace(
         `Visa Prémium Kàrtya POS tranzakciò  17 916 Ft Idöpont: 2021.05.20 07:30:48 E: 4 706 146 Ft Hely: LIDL ARUHAZ 0177.SZ. BUDAPEST HU`
       );
-      expect(place).toBe("Lidl Aruhaz 0177.sz. Budapest Hu");
+      expect(place).toBe("Lidl Aruhaz");
     });
 
     it("should resolve places with hungarian character", () => {
       const place = parsePlace(
         `Visa Prémium Kàrtya POS tranzakciò  17 916 Ft Idöpont: 2021.05.20 07:30:48 E: 4 706 146 Ft Hely: LIDL A'RUHA'Z 0177.SZ. BUDAPEST HU`
       );
-      expect(place).toBe("Lidl Áruház 0177.sz. Budapest Hu");
+      expect(place).toBe("Lidl Áruház");
     });
 
     it("should return place for POS transaction - Mastercard", () => {
       const place = parsePlace(
         `Mastercard Dombornyomott Kàrtya POS tranzakciò  2 118 Ft Idöpont: 2021.05.20 10:54:02 E: 4 697 603 Ft Hely: ROSSMANN 212. BUDAPEST HU`
       );
-      expect(place).toBe("Rossmann 212. Budapest Hu");
+      expect(place).toBe("Rossmann");
     });
 
     it("should return place for transfer", () => {
       const place = parsePlace(
         `HUF fizetési szàmla (242476) utalàsi megbìzàs teljesült 5 000 Ft 2021.05.20 E: 4 689 015 Ft Kedv.: Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor`
       );
-      expect(place).toBe("Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor");
+      expect(place).toBe("Sòlyom Vanda Közl");
     });
 
-    it("should return place for monthly bill", () => {
-      const place = parsePlace(
-        `HUF fizetési szàmla (242476) utalàsi megbìzàs teljesült 5 000 Ft 2021.05.20 E: 4 689 015 Ft Kedv.: Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor`
-      );
-      expect(place).toBe("Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor");
-    });
-
-    /*it("should return place for utility bill", () => {
+    it("should return place for utility bill", () => {
       const place = parsePlace(
         `HUF fizetési szàmla (242476) közüzemi megbìzàsa teljesült: Életbiztosìtàs 16 380 Ft Kedv.: AEGON MAGYARO. ÅLT. BIZT. ZRT. 2021.06.11 E: 812 960 Ft Közl: `
       );
-      expect(place).toBe("dummy isp 2021.12.23");
-    });*/
+      expect(place).toBe("Aegon Magyaro. Ålt. Bizt. Zrt.");
+    });
 
     it("should Capital case all uppercase place", () => {
       const place = parsePlace(
         `Mastercard Dombornyomott Kàrtya POS tranzakciò  2 118 Ft Idöpont: 2021.05.20 10:54:02 E: 4 697 603 Ft Hely: ROSSMANN 212. BUDAPEST HU`
       );
-      expect(place).toBe("Rossmann 212. Budapest Hu");
+      expect(place).toBe("Rossmann");
     });
 
     it("should leave case unchanged if not all uppercase place", () => {
       const place = parsePlace(
         `Mastercard Dombornyomott Kàrtya POS tranzakciò  2 118 Ft Idöpont: 2021.05.20 10:54:02 E: 4 697 603 Ft Hely: Rossmann 212. BUDAPEST HU`
       );
-      expect(place).toBe("Rossmann 212. BUDAPEST HU");
+      expect(place).toBe("Rossmann");
+    });
+
+    it("should return place for monthly debit 'kamat'", () => {
+      const place = parsePlace(
+        `HUF fizetési szàmla (242476) esedékes kamat törlesztve 6 616 Ft 2021.06.10 E: 921 345 Ft Közl: 01D62242476`
+      );
+      expect(place).toBe("kamat törlesztve");
+    });
+
+    it("should return place for monthly debit 'hitel'", () => {
+      const place = parsePlace(
+        `HUF fizetési szàmla (242476) esedékes hitel/ tartozàs törlesztve 44 037 Ft 2021.06.10 E: 877 308 Ft Közl: 01D62242476`
+      );
+      expect(place).toBe("hitel/ tartozàs törlesztve");
     });
   });
 
@@ -126,7 +133,7 @@ describe("util/parser.js", () => {
       expect(date).toBe(20);
     });
 
-    it("should return date for monthly bill", () => {
+    it("should return date for utility bill", () => {
       const date = parseDate(
         `HUF fizetési szàmla (242476) közüzemi megbìzàsa teljesült: Életbiztosìtàs 16 380 Ft Kedv.: AEGON MAGYARO. ÅLT. BIZT. ZRT. 2021.06.11 E: 812 960 Ft Közl: `
       );
