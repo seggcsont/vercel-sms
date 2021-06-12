@@ -70,12 +70,19 @@ describe("util/parser.js", () => {
       expect(place).toBe("Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor");
     });
 
-    it("should return place for utility bill", () => {
+    it("should return place for monthly bill", () => {
       const place = parsePlace(
-        `kozuzemi megbizasa teljesult: 11 123 Ft Kedv.: dummy isp 2021.12.23`
+        `HUF fizetési szàmla (242476) utalàsi megbìzàs teljesült 5 000 Ft 2021.05.20 E: 4 689 015 Ft Kedv.: Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor`
+      );
+      expect(place).toBe("Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor");
+    });
+
+    /*it("should return place for utility bill", () => {
+      const place = parsePlace(
+        `HUF fizetési szàmla (242476) közüzemi megbìzàsa teljesült: Életbiztosìtàs 16 380 Ft Kedv.: AEGON MAGYARO. ÅLT. BIZT. ZRT. 2021.06.11 E: 812 960 Ft Közl: `
       );
       expect(place).toBe("dummy isp 2021.12.23");
-    });
+    });*/
 
     it("should Capital case all uppercase place", () => {
       const place = parsePlace(
@@ -117,6 +124,13 @@ describe("util/parser.js", () => {
         `HUF fizetési szàmla (242476) utalàsi megbìzàs teljesült 5 000 Ft 2021.05.20 E: 4 689 015 Ft Kedv.: Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor`
       );
       expect(date).toBe(20);
+    });
+
+    it("should return date for monthly bill", () => {
+      const date = parseDate(
+        `HUF fizetési szàmla (242476) közüzemi megbìzàsa teljesült: Életbiztosìtàs 16 380 Ft Kedv.: AEGON MAGYARO. ÅLT. BIZT. ZRT. 2021.06.11 E: 812 960 Ft Közl: `
+      );
+      expect(date).toBe(11);
     });
   });
 });

@@ -1,7 +1,7 @@
 const AMOUNT_PATTERN =
   /.*(?:POS tranzakci.|megb.z.sa? teljes.lt:?| utal.s .rkezett) (?<amount>[\d ,]+) ?Ft.*/;
 const DATE_PATTERN =
-  /.*(?:Id.pont:|Ft) 202\d\.\d\d\.(?<date>\d+) (?:\d+:\d+:\d+ )?E:.*/;
+  /.* 202\d\.\d\d\.(?<date>\d+) (?:\d+:\d+:\d+ )?E:.*/;
 const PLACE_PATTERN = /(?:Hely:|Kedv.:|K.ld.:) (?<place>.+)/;
 
 const HUNGARIAN_CHAR_MAPPING = {
