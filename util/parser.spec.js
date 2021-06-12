@@ -30,9 +30,9 @@ describe("util/parser.js", () => {
 
     it("should return amount for utility bill", () => {
       const amount = parseAmount(
-        `kozuzemi megbizasa teljesult: 11 123 Ft Kedv.: dummy isp 2021.12.23`
+        `HUF fizetési szàmla (242476) közüzemi megbìzàsa teljesült: Életbiztosìtàs 16 380 Ft Kedv.: AEGON MAGYARO. ÅLT. BIZT. ZRT. 2021.06.11 E: 812 960 Ft Közl: `
       );
-      expect(amount).toBe(11123);
+      expect(amount).toBe(16380);
     });
   });
 
