@@ -65,9 +65,9 @@ describe("util/parser.js", () => {
 
     it("should resolve places with hungarian character", () => {
       const place = parsePlace(
-        `Visa Prémium Kàrtya POS tranzakciò  17 916 Ft Idöpont: 2021.05.20 07:30:48 E: 4 706 146 Ft Hely: LIDL A'RUHA'Z 0177.SZ. BUDAPEST HU`
+        `Visa Prémium Kàrtya POS tranzakciò  17 916 Ft Idöpont: 2021.05.20 07:30:48 E: 4 706 146 Ft Hely: LIDL A'RUHA'Z SO:RO:ZO" 0177.SZ. BUDAPEST HU`
       );
-      expect(place).toBe("Lidl Áruház");
+      expect(place).toBe("Lidl Áruház Söröző");
     });
 
     it("should return place for POS transaction - Mastercard", () => {
@@ -81,7 +81,7 @@ describe("util/parser.js", () => {
       const place = parsePlace(
         `HUF fizetési szàmla (242476) utalàsi megbìzàs teljesült 5 000 Ft 2021.05.20 E: 4 689 015 Ft Kedv.: Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor`
       );
-      expect(place).toBe("Sòlyom Vanda Közl");
+      expect(place).toBe("Sòlyom Vanda Közl: Tarcsànyi Làszlò Tibor");
     });
 
     it("should return place for utility bill", () => {

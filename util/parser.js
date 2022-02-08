@@ -2,7 +2,7 @@ const AMOUNT_PATTERN =
   /.*(?:POS tranzakci.|megb.z.sa? teljes.lt:?| utal.s .rkezett|t.rlesztve) [^:]*?(?<amount>[\d ,]+) ?Ft.*/;
 const DATE_PATTERN =
   /.* 202\d\.\d\d\.(?<date>\d+) (?:\d+:\d+:\d+ )?E:.*/;
-const PLACE_PATTERN = /(?:Hely:|Kedv.:|K.ld.:|esed.kes) (?<place>[^:0-9]+)/;
+const PLACE_PATTERN = /(?:Hely:|Kedv.:|K.ld.:|esed.kes) (?<place>[^0-9]+)/;
 
 const HUNGARIAN_CHAR_MAPPING = {
   "a'": "á",
@@ -13,12 +13,14 @@ const HUNGARIAN_CHAR_MAPPING = {
   "I'": "Í",
   "o'": "ó",
   "O'": "Ó",
-  "o:": "ö",
-  "O:": "Ö",
+  "o\:": "ö",
+  "O\:": "Ö",
+  "o\"": "ő",
+  "O\"": "Ő",
   "u'": "ú",
   "U'": "Ú",
-  "u:": "ü",
-  "U:": "Ü",
+  "u\:": "ü",
+  "U\:": "Ü",
 };
 
 export function parseAmount(str) {
